@@ -306,7 +306,19 @@ def scan(ctx: click.Context, target: str, target_type: str):
 
     This is an alternative to the dedicated sub-commands.
     """
-    ctx.invoke(globals()[target_type], target=target)
+    # Map target_type to the appropriate command function
+    command_map = {
+        "ip": ip,
+        "domain": domain,
+        "email": email,
+        "username": username,
+        "phone": phone,
+        "name": name,
+        "social": social,
+    }
+    cmd = command_map.get(target_type)
+    if cmd:
+        ctx.invoke(cmd, target=target)
 
 
 def main():

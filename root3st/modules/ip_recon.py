@@ -16,7 +16,7 @@ from root3st.utils import reverse_dns, safe_request
 
 def geolocate_ip(ip: str, config: Config) -> dict[str, Any]:
     """Query ip-api.com for geolocation data (free, no key required)."""
-    resp = safe_request(f"http://ip-api.com/json/{ip}?fields=66846719", config=config)
+    resp = safe_request(f"https://ip-api.com/json/{ip}?fields=66846719", config=config)
     if resp and resp.ok:
         return resp.json()
     return {}

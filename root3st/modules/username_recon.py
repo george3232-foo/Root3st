@@ -27,6 +27,12 @@ async def _check_platform(
             async with session.get(url, timeout=aiohttp.ClientTimeout(total=timeout),
                                    allow_redirects=True) as resp:
                 status = resp.status
+                final_url = str(resp.url)
+                # Check if we were redirected to a login/signup page
+                login_indicators = ("/login", "/signin", "/signup", "/join", "/account",
+                                    "/auth", "/register", "/sign-up", "/log-in")
+                if final_url != url and any(ind in final_url.lower() for ind in login_indicators):
+                    return {"platform": platform, "url": url, "status": "not_found"}
                 # Most platforms return 404 when the user doesn't exist
                 if status == 200:
                     return {"platform": platform, "url": url, "status": "found"}
