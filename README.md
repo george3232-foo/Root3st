@@ -11,6 +11,7 @@ Root3st is a modular, CLI-based Open Source Intelligence (OSINT) tool that perfo
 - **Phone Number Analysis** -- Format parsing, country identification, carrier lookup (NumVerify)
 - **Name / Person Search** -- Targeted Google dork generation for LinkedIn, Facebook, Twitter, GitHub, Reddit, and news
 - **Social Media Profiling** -- Public API queries for GitHub, Reddit, GitLab profiles plus search dork generation
+- **Google Dorks Builder** -- Generate advanced search dorks for emails, domains, usernames, phones, names, companies, and sensitive data discovery
 - **Report Generation** -- JSON and styled HTML reports saved automatically
 - **Optional API Enrichment** -- Supports Shodan, VirusTotal, Hunter.io, HIBP, and NumVerify API keys for deeper results
 
@@ -52,6 +53,12 @@ root3st name "John Doe"
 
 # Social media profile lookup
 root3st social johndoe
+
+# Google Dorks Builder (multiple target types)
+root3st dorks example.com --type domain
+root3st dorks user@example.com --type email
+root3st dorks "John Doe" --type name
+root3st dorks sensitive --type sensitive
 ```
 
 ### Options
