@@ -171,7 +171,7 @@ def numverify_lookup(phone: str, config: Config) -> dict[str, Any]:
 
     number = normalise_number(phone).lstrip("+")
     resp = safe_request(
-        "http://apilayer.net/api/validate",
+        "https://apilayer.net/api/validate",
         config=config,
         params={"access_key": api_key, "number": number},
     )

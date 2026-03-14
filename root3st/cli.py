@@ -291,6 +291,27 @@ def social(ctx: click.Context, target: str):
     _handle_output(ctx, results)
 
 
+@cli.command()
+@click.argument("target")
+@click.option(
+    "--type", "-t", "target_type",
+    type=click.Choice(["email", "domain", "username", "phone", "name", "company", "sensitive"]),
+    default="domain",
+    help="Type of target for dork generation.",
+)
+@click.pass_context
+def dorks(ctx: click.Context, target: str, target_type: str):
+    """Build Google Dorks for OSINT reconnaissance.
+
+    Generates targeted Google search queries for finding sensitive data,
+    exposed files, login pages, and more across various target types.
+    """
+    console.print(f"[bold bright_blue]Building dorks:[/bold bright_blue] {target} ...")
+    from root3st.modules import dorks_recon
+    results = dorks_recon.run(target, target_type, ctx.obj["config"])
+    _handle_output(ctx, results)
+
+
 # ---------------------------------------------------------------------------
 # Full scan (combines multiple modules)
 # ---------------------------------------------------------------------------
@@ -306,7 +327,19 @@ def scan(ctx: click.Context, target: str, target_type: str):
 
     This is an alternative to the dedicated sub-commands.
     """
-    ctx.invoke(globals()[target_type], target=target)
+    # Map target_type to the appropriate command function
+    command_map = {
+        "ip": ip,
+        "domain": domain,
+        "email": email,
+        "username": username,
+        "phone": phone,
+        "name": name,
+        "social": social,
+    }
+    cmd = command_map.get(target_type)
+    if cmd:
+        ctx.invoke(cmd, target=target)
 
 
 def main():
